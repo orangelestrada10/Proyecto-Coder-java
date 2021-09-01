@@ -1,6 +1,8 @@
 let nombre = prompt("Ingrese su nombre");
-let apellido= "orangel";
-let edad = 22;
-console.log(nombre, edad);
-let alerta = "Holaaaaa"
-alert(alerta);
+alert(nombre);
+let apellido = prompt("Ingrese Su Apellido");
+alert(apellido);
+let edadUsuario = prompt("Ingrese su edad");
+let edad = parseInt(edadUsuario);
+let numero = 20;
+console.log(edad+numero);
