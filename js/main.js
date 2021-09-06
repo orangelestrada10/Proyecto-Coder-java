@@ -18,13 +18,10 @@ if (usuarioIngresado == usuario && contraseñaIngresada == contraseña) {
 else{
     alert("No se pudo ingresar");
 }
-
+let menu = "hamburguesa"
 let menuDia = prompt("Ingrese su menu");
-if (menuDia = "Hamburguesa"){
+if (menuDia == menu){
     alert("Si es el menu de el dia")
-}
-else if (menuDia = "pollo"){
-    alert("No es menu de el dia");
 }
 else {
     alert("No es menu de el dia");
