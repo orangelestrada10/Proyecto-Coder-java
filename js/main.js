@@ -1,38 +1,27 @@
-//let nombre = prompt("Ingrese su nombre");
-//alert(nombre);    
-//let apellido = prompt("Ingrese Su Apellido");
-//alert(apellido);
-//let edadUsuario = prompt("Ingrese su edad");
-//let edad = parseInt(edadUsuario);
-//let numero = 20;
-//console.log(edad+numero);
+let inicio = prompt("Ingrese Tipo de vacuna contra COVID-19");
 
-let usuario = "usuario"
-let contraseña = "contraseña"
-let usuarioIngresado = prompt("Ingrese Nombre Usuario");
-let contraseñaIngresada = prompt("Ingrese Contraseña");
-
-if (usuarioIngresado == usuario && contraseñaIngresada == contraseña) {
-    alert ("Bienvenido");
+while(inicio != "no" ){
+   switch (inicio) {
+       case "sputnik":
+            alert("Tu Vacuna es la sputnik");
+            break;
+        case "sinopharm":
+            alert("Tu Vacuna es la sinopharm");
+            break;
+            case "pfizer":
+            alert("Tu Vacuna es la pfizer");
+            break;
+       default:
+           alert("No Hay Vacuna")
+           break;
+   }
+   inicio = prompt("Ingresar un nombre");
 }
-else{
-    alert("No se pudo ingresar");
-}
-let menu = "hamburguesa"
-let menuDia = prompt("Ingrese su menu");
-if (menuDia == menu){
-    alert("Si es el menu de el dia")
-}
-else {
-    alert("No es menu de el dia");
+for(let turno = 1; turno <=3; turno++){
+    let ingresarTurno = prompt("Ingresar Nombre del paciente " + turno );
+    let ingresarVacuna = prompt("Ingresar Vacuna");
+    console.log(" Nombre del paciente: "+ ingresarTurno + " Tipo de Vacuna: " + ingresarVacuna);
 }
 
-let edadUsuario = prompt("Ingrese su edad");
-let edad = parseInt(edadUsuario);
-if(20 == edad ){
-    alert("puedes entrar")
-}
 
-else{
-    alert("No puedes Entrar")
-}
+    
