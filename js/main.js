@@ -8,19 +8,25 @@ while(inicio != "no" ){
         case "sinopharm":
             alert("Tu Vacuna es la sinopharm");
             break;
-            case "pfizer":
+        case "pfizer":
             alert("Tu Vacuna es la pfizer");
             break;
        default:
            alert("No Hay Vacuna")
            break;
    }
-   inicio = prompt("Ingresar un nombre");
+   inicio = prompt("Ingrese Tipo de vacuna contra COVID-19");
 }
 for(let turno = 1; turno <=3; turno++){
-    let ingresarTurno = prompt("Ingresar Nombre del paciente " + turno );
+    let paciente = prompt("Ingresar Nombre del paciente " );
+    while(paciente == ""){
+        paciente = prompt("No se ingreso paciente, ingrese uno")
+    }
     let ingresarVacuna = prompt("Ingresar Vacuna");
-    console.log(" Nombre del paciente: "+ ingresarTurno + " Tipo de Vacuna: " + ingresarVacuna);
+    while(ingresarVacuna == ""){
+        ingresarVacuna = prompt("No se ingreso una vacuna, Porfavor Ingresar una nuevamente!");
+    }
+    console.log(" Nombre del paciente: "+  paciente + " Tipo de Vacuna: " + ingresarVacuna);
 }
 
 
