@@ -1,34 +1,43 @@
-const suma = (a,b) => a+b;
-
-const resta = (a,b) => a-b;
-
-const iva = (x) => x*0.21;
-
-const descuento = (x) => x*0.15;
-
-const cuotas = (x,nCuotas) => x / nCuotas;
-
-
-function procesarProducto(nombre, valor, numeroCuotas){
-    console.log(nombre + " con iva: " + suma(valor,iva(valor)) + "$");
-    console.log(nombre + " con descuento del 15%: " + resta(valor,descuento(valor)) + "$" );
-    if(numeroCuotas == 1)
-        console.log(nombre + " a " + numeroCuotas + " cuota: " + cuotas(valor,numeroCuotas));
-    else
-        console.log(nombre + " a " + numeroCuotas + " cuotas: " + cuotas(valor,numeroCuotas));
+class Paciente {
+    constructor(nombre, apellido, vacuna, documento){
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.vacuna = vacuna;
+        this.documento = documento; 
+    }
+    viajar(continente){
+        switch (continente) {
+            case 'America':
+                if(this.vacuna == 'sinopharm')
+                    return 'puede entrar a America'
+                else
+                    return 'no puede entrar a America'
+                break;
+            case 'Europa':
+                if(this.vacuna == "pfizer")
+                    return "puede entrar a Europa"
+                else
+                    return "no puede entrar a Europa"       
+                break;
+            default:
+                return "No se reconoce el continente"
+                break;
+        }
+    }
+    toString(){
+        return `Paciente ${this.nombre}\nApellido: ${this.apellido}\nVacuna: ${this.vacuna}\nDocumento: ${this.documento}`
+    }
 }
 
-let sumaNeta = 0;
+for (let i = 1; i <= 4; i++) {
+    const nombre = prompt("Ingrese Nombre del Paciente");
+    const apellido = prompt("Ingrese Apellido del Paciente");
+    const vacuna = prompt("Ingrese Vacuna del Paciente");
+    const documento = Number( prompt("Ingrese Documento del Paciente"));
+    
+    const paciente = new Paciente (nombre, apellido, vacuna, documento);
 
-for (let i = 1; i <= 3; i++) {
-    let producto = prompt("Ingrese el nombre del producto " + i );
-    let valorProducto = parseInt(prompt("Ingrese el valor del producto " + i ));
-    let mesesCuotas = parseInt(prompt("Ingrese la cantidad de cuotas deseadas"));
-    procesarProducto(producto,valorProducto,mesesCuotas);
-
-    sumaNeta = sumaNeta + valorProducto; 
+    console.log(paciente.toString())
+    console.log(paciente.nombre + " " + paciente.viajar('America'))
+    console.log(paciente.nombre + " " + paciente.viajar('Europa'))
 }
-
-console.log("Suma total: "+ sumaNeta)
-console.log("Suma total con iva: "+ suma(sumaNeta, iva(sumaNeta)))
-console.log("Suma total con descuento del 15%: "+ resta(sumaNeta, descuento(sumaNeta)))
