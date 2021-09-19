@@ -1,43 +1,156 @@
-class Paciente {
-    constructor(nombre, apellido, vacuna, documento){
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.vacuna = vacuna;
-        this.documento = documento; 
+class Usuario {
+    constructor(username, pass , nombre, apellido, equipo) {
+        this.username = username
+        this.pass = pass
+        this.nombre = nombre
+        this.apellido = apellido
+        this.equipo = equipo
     }
-    viajar(continente){
-        switch (continente) {
-            case 'America':
-                if(this.vacuna == 'sinopharm')
-                    return 'puede entrar a America'
-                else
-                    return 'no puede entrar a America'
-                break;
-            case 'Europa':
-                if(this.vacuna == "pfizer")
-                    return "puede entrar a Europa"
-                else
-                    return "no puede entrar a Europa"       
-                break;
-            default:
-                return "No se reconoce el continente"
-                break;
-        }
-    }
-    toString(){
-        return `Paciente ${this.nombre}\nApellido: ${this.apellido}\nVacuna: ${this.vacuna}\nDocumento: ${this.documento}`
+
+    ToString() {
+        return `Username: ${this.username} \nNombre: ${this.nombre}\nApellido: ${this.apellido}\nEquipo: ${this.equipo}`
     }
 }
 
-for (let i = 1; i <= 4; i++) {
-    const nombre = prompt("Ingrese Nombre del Paciente");
-    const apellido = prompt("Ingrese Apellido del Paciente");
-    const vacuna = prompt("Ingrese Vacuna del Paciente");
-    const documento = Number( prompt("Ingrese Documento del Paciente"));
-    
-    const paciente = new Paciente (nombre, apellido, vacuna, documento);
+class Cancha {
+    constructor(nombre) {
+        this.nombre = nombre
+        this.reserva = ""
+    }
 
-    console.log(paciente.toString())
-    console.log(paciente.nombre + " " + paciente.viajar('America'))
-    console.log(paciente.nombre + " " + paciente.viajar('Europa'))
+    reservar(username){
+        if(this.reserva == "")
+            this.reserva = username
+        else
+            alert("La cancha "+ this.nombre + " ya esta reservada")
+    }
+}
+
+let usuarios = []
+
+let canchas = [
+    new Cancha("La Bombonera"),
+    new Cancha("Monumental"),
+    new Cancha("Estadio Libertadores de America"),
+    new Cancha("Camp Nou"),
+    new Cancha("Anfield"),
+]
+
+let usuarioLogueado
+
+function login() {
+    const username = prompt("Introduzca Nombre de Usuario")
+    const pass = prompt("Introduzca Contraseña")
+
+    let usuario = usuarios.find( user => user.username == username && user.pass == pass )
+
+    if(usuario)
+        usuarioLogueado = usuario
+    else
+        alert("Usuario o contraseña incorrectos")
+}
+
+function registrarse() {
+    let username = "", pass = "", nombre = "", apellido = "", equipo = "";
+
+    do {
+        username = prompt("Ingrese Nombre de Usuario")
+        if(username == "")
+            alert("El username no puede ser vacio")
+    }while(username == "")
+
+    do {
+        pass = prompt("Ingrese Contraseña")
+        if(pass == "")
+            alert("El password no puede ser vacio")
+    }while(pass == "")
+
+    do {
+        nombre = prompt("Ingrese Nombre")
+        if(nombre == "")
+            alert("El Nombre no puede estar vacio")
+    }while(nombre == "")
+
+    do {
+        apellido = prompt("Ingrese Apellido")
+        if(apellido == "")
+            alert("El apellido no puede ser vacio")
+    }while(apellido == "")
+
+    do {
+        equipo = prompt("Ingrese Nombre de el equipo")
+        if(equipo == "")
+            alert("El nombre del equipo no puede ser vacio")
+    }while(equipo == "")
+
+    usuarios.push(new Usuario(username, pass , nombre, apellido, equipo))
+    
+}
+
+function menuUsuario() {
+    let operacion = 0
+    while(operacion != 3) {
+        operacion = parseInt(prompt("------- Bienvenido "+ usuarioLogueado.nombre + " --------\n1. Reservar\n2. Mis Reservas\n3. Cerrar sesion"))
+
+        let textoMenu
+
+        switch(operacion) {
+            case 1:
+                textoMenu = "- Que cancha quieres reservar? -\n"
+                for (let i = 0; i < canchas.length; i++) {
+                    const cancha = canchas[i];
+
+                    textoMenu = textoMenu + (i+1) + ". " + cancha.nombre + "\n"
+                }
+                let nCancha = prompt(textoMenu)
+
+                if(nCancha > 0 && nCancha <= canchas.length)
+                    canchas[nCancha-1].reservar(usuarioLogueado.username)
+                else
+                    alert("Numero de cancha invalido")
+                break;
+            case 2:
+                textoMenu = "------- Mis Reservas -------\n"
+                for (const cancha of canchas.sort(comparaCanchas)) {
+                    if(cancha.reserva == usuarioLogueado.username)
+                        textoMenu = textoMenu + cancha.nombre + "\n" 
+                }
+                alert(textoMenu)
+                break;
+            case 3:
+                alert("Cerrando Sesion.")
+                break;
+        }
+    }
+    usuarioLogueado = null
+}
+
+function comparaCanchas( a, b ) {
+    if ( a.nombre < b.nombre ){
+        return -1;
+    }
+    if ( a.nombre > b.nombre ){
+        return 1;
+    }
+    return 0;
+}
+
+let operacion = 0
+while(operacion != 3) {
+    // Imprime el menu principal y espera que escribas en el prompt un numero
+    operacion = parseInt(prompt("------- Menu --------\n1. Iniciar sesion\n2. Registrarse\n3. Salir"))
+
+    switch(operacion) {
+        case 1:
+            login()
+            if(usuarioLogueado)
+                menuUsuario()
+            break;
+        case 2:
+            registrarse()
+            break;
+        case 3:
+            alert("Hasta luego!")
+            break;
+    }
 }
