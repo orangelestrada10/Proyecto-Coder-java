@@ -1,5 +1,13 @@
 h1{
     font-size: 30px;
-    color: crimson;
+    color: rgb(255, 255, 255);
     font-family: Georgia, 'Times New Roman', Times, serif;
+}
+h2{
+    font-size: 15px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: wheat;
+}
+body{
+    background-color: gray;
 }
