@@ -11,3 +11,20 @@ h2{
 body{
     background-color: gray;
 }
+
+p{
+    font-size: 30px;
+    color: rgb(255, 255, 255);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+button{
+    text-decoration: none;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 20px;
+    color: #ffffff;
+    background-color: #000000;
+    border-radius: 6px;
+    border: 2px solid #ffffff;
+}
