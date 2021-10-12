@@ -38,62 +38,95 @@ let canchas = [
 
 let usuarioLogueado
 
-function login() {
-    const username = prompt("Introduzca Nombre de Usuario")
-    const pass = prompt("Introduzca Contraseña")
+function menuLogin() {
+    document.body.innerHTML =""
 
-    let usuario = usuarios.find( user => user.username == username && user.pass == pass )
+    $('body').prepend(`<h1>Iniciar sesion</h1>
+                    <form id="formLogin">
+                        <label for="username">Nombre de Usuario:</label>
+                        <input type="text" id="username" name="username"><br/>
+                        <label for="pass">Pass:</label>
+                        <input type="password" id="pass" name="pass"><br/><br/>
+                        <input type="submit" value="Identificarse">
+                    </form>`);
 
-    if(usuario)
-        usuarioLogueado = usuario
-    else
-        alert("Usuario o contraseña incorrectos")
+    $("#formLogin").submit(function (e) {
+        //Prevenimos el comportamiento de submit 
+        e.preventDefault();
+
+        const username = $('#username').val()
+        const pass = $('#pass').val()
+
+        let usuario = usuarios.find( user => user.username == username && user.pass == pass )
+
+        if(usuario){
+            usuarioLogueado = usuario
+            menuUsuario()
+        }
+        else
+            alert("Usuario o contraseña incorrectos")
+    });
+
+    botonMenuRegister = document.createElement("button");
+    botonMenuRegister.innerHTML = "Registrarse"
+        
+    botonMenuRegister.addEventListener("click", function() {
+        menuRegister()
+    });
+    document.body.appendChild(botonMenuRegister);
+
+    
+
 }
 
-function registrarse() {
-    let username = "", pass = "", nombre = "", apellido = "", equipo = "";
+function menuRegister() {
+    document.body.innerHTML =""
 
-    let EsUsernameInvalido;
+    $('body').prepend(`<h1>Registrese</h1>
+                    <form id="formRegister">
+                        <label for="username">Nombre de Usuario:</label>
+                        <input type="text" id="username" name="username"><br/>
+                        <label for="pass">Pass:</label>
+                        <input type="password" id="pass" name="pass"><br/>
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre"><br/>
+                        <label for="apellido">Apellido:</label>
+                        <input type="text" id="apellido" name="apellido"><br/>
+                        <label for="equipo">Nombre del Equipo:</label>
+                        <input type="text" id="equipo" name="equipo"><br/><br/>
+                        <input type="submit" value="Registrarse">
+                    </form>`);
 
-    do {
-        EsUsernameInvalido = false;
-        username = prompt("Ingrese Nombre de Usuario")
-        if(username == ""){
-            alert("El username no puede ser vacio")
-            EsUsernameInvalido = true
-        }
-        else if(usuarios.find(user => user.username == username)){
+    $("#formRegister").submit(function (e) {
+        //Prevenimos el comportamiento de submit 
+        e.preventDefault();
+
+        const username = $('#username').val()
+        const pass = $('#pass').val()
+        const nombre = $('#nombre').val()
+        const apellido = $('#apellido').val()
+        const equipo = $('#equipo').val()
+
+        if(username == "" || pass == "" || nombre == "" || apellido == "" || equipo == "")
+            alert("Hay uno o mas campos vacios")
+        else if(usuarios.find(user => user.username == username))
             alert("Ese username ya esta en uso")
-            EsUsernameInvalido = true
-        }   
-    }while(EsUsernameInvalido)
+        else {
+            usuarios.push(new Usuario(username, pass , nombre, apellido, equipo))
+            guardarDatos()
+            alert("Usuario registrado con exito!")
+            menuLogin()
+        }
+    });
 
-    do {
-        pass = prompt("Ingrese Contraseña")
-        if(pass == "")
-            alert("El password no puede ser vacio")
-    }while(pass == "")
-
-    do {
-        nombre = prompt("Ingrese Nombre")
-        if(nombre == "")
-            alert("El Nombre no puede estar vacio")
-    }while(nombre == "")
-
-    do {
-        apellido = prompt("Ingrese Apellido")
-        if(apellido == "")
-            alert("El apellido no puede ser vacio")
-    }while(apellido == "")
-
-    do {
-        equipo = prompt("Ingrese Nombre de el equipo")
-        if(equipo == "")
-            alert("El nombre del equipo no puede ser vacio")
-    }while(equipo == "")
-
-    usuarios.push(new Usuario(username, pass , nombre, apellido, equipo))
-  
+    botonVolver = document.createElement("button");
+    botonVolver.innerHTML = "Volver al inicio de sesion"
+        
+    botonVolver.addEventListener("click", function() {
+        menuLogin()
+    });
+    document.body.appendChild(botonVolver);
+                            
 }
 
 function menuUsuario() {
@@ -190,10 +223,12 @@ function guardarDatos() {
     console.log("Se han guardado datos en local Storage")
 }
 
- 
+$(document).ready(function() {
+    leerDatos()
+    menuLogin()
+});
 
-leerDatos()
-let operacion = 0
+/*let operacion = 0
 while(operacion != 3) {
   operacion = parseInt(prompt("------- Menu --------\n1. Iniciar sesion\n2. Registrarse\n3. Salir"))
 
@@ -213,4 +248,4 @@ while(operacion != 3) {
           alert("Hasta luego!")
           break;
   }
-}
+}*/

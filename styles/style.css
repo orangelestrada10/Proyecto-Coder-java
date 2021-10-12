@@ -18,11 +18,11 @@ p{
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-button{
+button, input[type=button], input[type=submit]{
     text-decoration: none;
     padding: 10px;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 15px;
     color: #ffffff;
     background-color: #000000;
     border-radius: 6px;
