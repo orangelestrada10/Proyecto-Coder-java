@@ -1,6 +1,6 @@
 h1{
     font-size: 30px;
-    color: rgb(255, 255, 255);
+    color: rgb(85, 85, 85);
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 h2{
@@ -13,7 +13,7 @@ body{
 }
 
 p{
-    font-size: 30px;
+    font-size: 15px;
     color: rgb(255, 255, 255);
     font-family: Georgia, 'Times New Roman', Times, serif;
 }

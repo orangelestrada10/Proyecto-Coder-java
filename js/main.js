@@ -41,7 +41,7 @@ let usuarioLogueado
 function menuLogin() {
     document.body.innerHTML =""
 
-    $('body').prepend(`<h1>Iniciar sesion</h1>
+    $('body').prepend(`<h1 style="display: none">Iniciar sesion</h1>
                     <form id="formLogin">
                         <label for="username">Nombre de Usuario:</label>
                         <input type="text" id="username" name="username"><br/>
@@ -76,13 +76,15 @@ function menuLogin() {
     document.body.appendChild(botonMenuRegister);
 
     
-
+    $("h1").fadeIn(1000).animate({
+        color: "white",
+    }, 1000)
 }
 
 function menuRegister() {
     document.body.innerHTML =""
 
-    $('body').prepend(`<h1>Registrese</h1>
+    $('body').prepend(`<h1 style="display: none">Registrese</h1>
                     <form id="formRegister">
                         <label for="username">Nombre de Usuario:</label>
                         <input type="text" id="username" name="username"><br/>
@@ -127,11 +129,16 @@ function menuRegister() {
     });
     document.body.appendChild(botonVolver);
                             
+    $("h1").fadeIn(1000).animate({
+        color: "white",
+    }, 1000)
 }
 
 function menuUsuario() {
 
-    document.body.innerHTML ="<h1>Bienvenido "+ usuarioLogueado.nombre + "</h1>"
+    document.body.innerHTML ='<h1 style="display: none">Bienvenido '+ usuarioLogueado.nombre + '</h1>'
+
+    
 
     for (const cancha of canchas) {
         let contenedor = document.createElement("div");
@@ -162,10 +169,57 @@ function menuUsuario() {
     });
                             
     document.body.appendChild(botonMisReservas);
+
+    let botonTareas = document.createElement("button");
+    botonTareas.innerHTML = "Prueba"
+
+    botonTareas.addEventListener("click", function() {
+        menuTareas()
+    });
+                            
+    document.body.appendChild(botonTareas);
+
+
+    $("h1").fadeIn(1000).animate({
+        color: "white",
+    }, 1000)
+
+}
+
+function menuTareas (){
+    document.body.innerHTML ='<h1 style="display: none">Tareas</h1>'
+
+    const URLGET = "https://jsonplaceholder.typicode.com/todos"
+    
+    $.get(URLGET, function (respuesta, estado) {
+        if(estado === "success"){
+            let misDatos = respuesta;
+            for (const dato of misDatos) {
+                let info = `<div><h3>${dato.title}</h3>`
+                if(dato.completed)
+                    info += `<p style="color:white;">Completado</p></div>`
+                else
+                    info += `<p style="color:red;">En progreso</p></div>`
+                $("body").append(info)
+            }  
+        }
+        let botonVolver = document.createElement("button");
+        botonVolver.innerHTML = "Volver"
+    
+        botonVolver.addEventListener("click", function() {
+            menuUsuario()
+        });
+                                
+        document.body.appendChild(botonVolver);
+    });
+
+    $("h1").fadeIn(1000).animate({
+        color: "white",
+    }, 1000)
 }
 
 function misReservas (){
-    document.body.innerHTML ="<h1>Mis Reservas</h1>"
+    document.body.innerHTML ="<h1 style='display: none'>Mis Reservas</h1>"
 
     for (const cancha of canchas.sort(comparaCanchas)) {
         if(cancha.reserva == usuarioLogueado.username) {
@@ -184,6 +238,10 @@ function misReservas (){
     });
                             
     document.body.appendChild(botonVolver);
+
+    $("h1").fadeIn(1000).animate({
+        color: "white",
+    }, 1000)
 }
 
 function comparaCanchas( a, b ) {
@@ -227,25 +285,3 @@ $(document).ready(function() {
     leerDatos()
     menuLogin()
 });
-
-/*let operacion = 0
-while(operacion != 3) {
-  operacion = parseInt(prompt("------- Menu --------\n1. Iniciar sesion\n2. Registrarse\n3. Salir"))
-
-  switch(operacion) {
-      case 1:
-          login()
-          if(usuarioLogueado){
-            menuUsuario()
-            operacion = 3
-          }
-          break;
-      case 2:
-          registrarse()
-          guardarDatos()
-          break;
-      case 3:
-          alert("Hasta luego!")
-          break;
-  }
-}*/
