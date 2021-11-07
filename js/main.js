@@ -170,14 +170,24 @@ function menuUsuario() {
                             
     document.body.appendChild(botonMisReservas);
 
-    let botonTareas = document.createElement("button");
+    /*let botonTareas = document.createElement("button");
     botonTareas.innerHTML = "Prueba"
 
     botonTareas.addEventListener("click", function() {
         menuTareas()
     });
                             
-    document.body.appendChild(botonTareas);
+    document.body.appendChild(botonTareas);*/
+
+    let botonCerrarSesion = document.createElement("button");
+    botonCerrarSesion.innerHTML = "Cerrar Sesion"
+
+    botonCerrarSesion.addEventListener("click", function() {
+        usuarioLogueado = null
+        menuLogin()
+    });
+                            
+    document.body.appendChild(botonCerrarSesion);
 
 
     $("h1").fadeIn(1000).animate({
