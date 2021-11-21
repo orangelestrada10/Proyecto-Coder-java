@@ -6,7 +6,6 @@ class Usuario {
       this.apellido = apellido
       this.equipo = equipo
   }
-
   ToString() {
       return `Username: ${this.username} \nNombre: ${this.nombre}\nApellido: ${this.apellido}\nEquipo: ${this.equipo}`
   }
@@ -16,13 +15,20 @@ class Cancha {
     constructor(nombre, reserva = "") {
         this.nombre = nombre
         this.reserva = reserva
+        this.confirmada = false
     }
-
     reservar(username){
         if(this.reserva == "")
             this.reserva = username
         else
             alert("La cancha "+ this.nombre + " ya esta reservada")
+    }
+    cancelar(){
+        this.reserva = ""
+    }
+    confirmar(){
+        if(this.reserva != "")
+            this.confirmada = true
     }
 }
 
@@ -40,7 +46,6 @@ let usuarioLogueado
 
 function menuLogin() {
     document.body.innerHTML =""
-
     $('body').prepend(`<h1 style="display: none">Iniciar sesion</h1>
                     <form id="formLogin">
                         <label for="username">Nombre de Usuario:</label>
@@ -68,14 +73,12 @@ function menuLogin() {
     });
 
     botonMenuRegister = document.createElement("button");
-    botonMenuRegister.innerHTML = "Registrarse"
-        
+    botonMenuRegister.innerHTML = "Registrarse"  
     botonMenuRegister.addEventListener("click", function() {
         menuRegister()
     });
     document.body.appendChild(botonMenuRegister);
 
-    
     $("h1").fadeIn(1000).animate({
         color: "white",
     }, 1000)
@@ -135,11 +138,7 @@ function menuRegister() {
 }
 
 function menuUsuario() {
-
     document.body.innerHTML ='<h1 style="display: none">Bienvenido '+ usuarioLogueado.nombre + '</h1>'
-
-    
-
     for (const cancha of canchas) {
         let contenedor = document.createElement("div");
         contenedor.innerHTML = `<h3> Nombre: ${cancha.nombre}</h3>`
@@ -160,47 +159,29 @@ function menuUsuario() {
    
         document.body.appendChild(contenedor);
     }
-
     let botonMisReservas = document.createElement("button");
     botonMisReservas.innerHTML = "Ver Mis Reservas"
-
     botonMisReservas.addEventListener("click", function() {
         misReservas()
-    });
-                            
+    });                       
     document.body.appendChild(botonMisReservas);
-
-    /*let botonTareas = document.createElement("button");
-    botonTareas.innerHTML = "Prueba"
-
-    botonTareas.addEventListener("click", function() {
-        menuTareas()
-    });
-                            
-    document.body.appendChild(botonTareas);*/
 
     let botonCerrarSesion = document.createElement("button");
     botonCerrarSesion.innerHTML = "Cerrar Sesion"
-
     botonCerrarSesion.addEventListener("click", function() {
         usuarioLogueado = null
         menuLogin()
-    });
-                            
+    });                       
     document.body.appendChild(botonCerrarSesion);
-
 
     $("h1").fadeIn(1000).animate({
         color: "white",
     }, 1000)
-
 }
 
 function menuTareas (){
     document.body.innerHTML ='<h1 style="display: none">Tareas</h1>'
-
     const URLGET = "https://jsonplaceholder.typicode.com/todos"
-    
     $.get(URLGET, function (respuesta, estado) {
         if(estado === "success"){
             let misDatos = respuesta;
@@ -215,11 +196,9 @@ function menuTareas (){
         }
         let botonVolver = document.createElement("button");
         botonVolver.innerHTML = "Volver"
-    
         botonVolver.addEventListener("click", function() {
             menuUsuario()
-        });
-                                
+        });                    
         document.body.appendChild(botonVolver);
     });
 
@@ -235,6 +214,31 @@ function misReservas (){
         if(cancha.reserva == usuarioLogueado.username) {
             let contenedor = document.createElement("div");
             contenedor.innerHTML = `<h3> Nombre: ${cancha.nombre}</h3>`
+            if(cancha.confirmada) {
+                let reservaConfirmada = document.createElement("p");
+                reservaConfirmada.innerHTML = "Esta reserva esta confirmada"
+                contenedor.appendChild(reservaConfirmada);
+            }
+            else {
+                //Boton Confirmar
+                let botonConfirmar = document.createElement("button");
+                botonConfirmar.innerHTML = "Confirmar"
+                botonConfirmar.addEventListener("click", function() {
+                    cancha.confirmar()
+                    guardarDatos()
+                    misReservas()
+                });
+                contenedor.appendChild(botonConfirmar);
+                // Boton Cancelar
+                let botonCancelar = document.createElement("button");
+                botonCancelar.innerHTML = "Cancelar"
+                botonCancelar.addEventListener("click", function() {
+                    cancha.cancelar()
+                    guardarDatos()
+                    misReservas()
+                });
+                contenedor.appendChild(botonCancelar);
+            }
                                     
             document.body.appendChild(contenedor);
         }
@@ -287,8 +291,6 @@ function leerDatos(){
 function guardarDatos() {
     let datos = `{"usuarios": ${JSON.stringify(usuarios)}, "canchas": ${JSON.stringify(canchas)} }`
     localStorage.setItem('datos', datos);
-
-    console.log("Se han guardado datos en local Storage")
 }
 
 $(document).ready(function() {
